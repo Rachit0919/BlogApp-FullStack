@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="50" ry="50" fill="url(#gradient)" />
+  <g transform="translate(400, 300)">
+    <!-- Stylized 'B' for Blog -->
+    <path d="M-100,-100 L0,-100 C50,-100 80,-70 80,-30 C80,0 60,20 30,30 C70,40 100,70 100,120 C100,170 60,200 0,200 L-100,200 Z" fill="white" />
+    <path d="M-60,-60 L0,-60 C20,-60 40,-40 40,-20 C40,0 20,20 0,20 L-60,20 Z" fill="url(#gradient)" />
+    <path d="M-60,60 L0,60 C30,60 60,80 60,120 C60,160 30,180 0,180 L-60,180 Z" fill="url(#gradient)" />
+    
+    <!-- Pen icon -->
+    <path d="M150,-50 L200,0 L150,50 L100,0 Z" fill="white" />
+    <rect x="90" y="-10" width="60" height="20" rx="5" ry="5" transform="rotate(45, 120, 0)" fill="url(#gradient)" />
+  </g>
+</svg>

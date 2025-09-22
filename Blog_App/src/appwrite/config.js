@@ -85,7 +85,7 @@ export class Service {
         queries
       );
     } catch (error) {
-      console.log("Appwrite servie :: getPosts :: error", error);
+      // console.log("Appwrite servie :: getPosts :: error", error);
     }
   }
 
@@ -99,7 +99,7 @@ export class Service {
         file
       );
     } catch (error) {
-      console.log("Appwrite servie :: uploadFile :: error", error);
+      // console.log("Appwrite servie :: uploadFile :: error", error);
     }
   }
 

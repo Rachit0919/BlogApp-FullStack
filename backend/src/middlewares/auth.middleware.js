@@ -25,7 +25,11 @@ export const verifyJWT = asyncHandler( async(req, res, next) =>{
         req.user = user
         next()
     } catch (error) {
-        console.log("Auth middleware error" , error.message)
+        console.log("\nAuth middleware error: ", error.message)
+        if (error.name === "TokenExpiredError") {
+      // send a clear 401 so client can refresh
+      return res.status(401).json({ message: "jwt expired" });
+    }
         throw new ApiError(401, error?.message || "Invalid Access")
     }
 })

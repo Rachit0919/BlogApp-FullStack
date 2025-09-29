@@ -84,9 +84,9 @@ const loginUser = asyncHandler( async(req, res) =>{
     const options = {
         httpOnly: true,
         secure: false,
-        sameSite: "none"
+        sameSite: "lax"
     }
-    console.log("\nToken during login:", accessToken)
+    // console.log("\nToken during login:", accessToken)
     return res
     .status(200)
     .cookie("accessToken", accessToken, options)
@@ -136,8 +136,10 @@ const logOutUser = asyncHandler(async(req, res) =>{
 const getCurrentUser = asyncHandler(async(req, res) =>{
 
     
+
     return res
     .status(200)
+    
     .json(
         new ApiResponse(
             200,

@@ -1,16 +1,16 @@
 import React from "react";
-import appwriteService from "../appwrite/config";
+
 import {Link, useNavigate } from "react-router-dom";
 
-function Postcard({ $id, title, featuredImage }) {
-  const imageUrl = appwriteService.getFileView(featuredImage);
-  // console.log("Image URL:", imageUrl);
+function Postcard({ _id, title, image }) {
+  
+  console.log("Image URL:", image);
   const navigate = useNavigate();
 
   
 
   const handleClick = () => {
-    navigate(`/post/${$id}`);
+    navigate(`/post/${_id}`);
   };
 
   
@@ -29,7 +29,7 @@ function Postcard({ $id, title, featuredImage }) {
                             e.target.src = "/images/fallback.png"; // Optional fallback
                         }} */}
           <img
-            src={imageUrl}
+            src={image.imageURL}
             alt={title}
             className="w-40 h-33 object-cover rounded-xl top-0"
             onError={(e) => {

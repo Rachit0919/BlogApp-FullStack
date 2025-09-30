@@ -16,6 +16,7 @@ const blogSchema = new Schema(
             required: true,
         },
         image: {
+            
             required: true, 
             type: Schema.Types.ObjectId,
             ref: "Image"

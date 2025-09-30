@@ -1,6 +1,7 @@
 const API_BASE = "http://localhost:8000/api/v1";
 
 const fetchRequest = async (url, options = {}) => {
+  console.log("Inside fetch request postServie")
   const res = await fetch(`${API_BASE}${url}`, {
     credentials: "include",
     ...options,
@@ -31,16 +32,7 @@ const fetchRequest = async (url, options = {}) => {
 };
 
 export const createPost = async (formData) => {
-  const res = await fetch('/api/posts',{
-    method: 'POST',
-    body: formData,
-    credentials: 'include'
-  })
-  if(!res.ok){
-    throw new Error(`Failed to create post: ${res.statusText}`)
-  }
-
-  // return await res.json()
+  
 
   return fetchRequest("/posts", {
     method: "POST",
@@ -67,3 +59,10 @@ export const deletePost = async (id) => {
     method: "DELETE",
   });
 };
+
+// eslint-disable-next-line no-unused-vars
+export const getAllPosts = async(req, res) => {
+  return fetchRequest('all-posts',{
+    method: "GET",
+  })
+}

@@ -1,9 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback,useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { createPost, updatePost } from "../../services/postService";
 
 
@@ -19,40 +19,33 @@ export default function PostForm({ post }) {
     });
 
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.auth.userData);
-  console.log("userData:", userData);
+  const [userData, setUserData] = useState(null)
+  // const userData = useSelector((state) => state.auth.userData);
+  // console.log("userData:", userData);
 
-  // const submit = async (data) => {
-  //     if (post) {
-  //         const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+  useEffect(() =>{
+    const getCurrentUser = async() =>{
+      try {
+        const res = await fetch("http://localhost:8000/api/v1/users/current-user",{
+          method: "GET",
+          credentials: "include",
+        })
+        if(!res.ok) {
+          console.log("Unable to fetch the current user")
+          throw new Error("Failed to fetch the current user")
+        }
+        const data = await res.json();
+        setUserData(data.data)
+        
+      } catch (error) {
+        console.log("\nError Fetching current User: ", error.message)
+        setUserData(null)
+      }
+    }
+    getCurrentUser()
+  },[])
 
-  //         if (file) {
-  //             appwriteService.deleteFile(post.featuredImage);
-  //         }
-
-  //         const dbPost = await appwriteService.updatePost(post.$id, {
-  //             ...data,
-  //             featuredImage: file ? file.$id : undefined,
-  //         });
-
-  //         if (dbPost) {
-  //             navigate(`/post/${dbPost.$id}`);
-  //         }
-  //     } else {
-  //         const file = await appwriteService.uploadFile(data.image[0]);
-
-  //         if (file) {
-  //             const fileId = file.$id;
-  //             data.featuredImage = fileId;
-  //             // console.log("userData:", userData);
-  //             const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
-
-  //             if (dbPost) {
-  //                 navigate(`/post/${dbPost.$id}`);
-  //             }
-  //         }
-  //     }
-  // };
+  console.log("UserData: ", userData)
   const submit = async (data) => {
     try {
       const formData = new FormData()
@@ -61,6 +54,7 @@ export default function PostForm({ post }) {
       formData.append('content', data.content),
       formData.append('status', data.status),
       formData.append('userId', userData._id)
+      formData.append('image', data.image[0])
       
       if (post) {
         const updated = await updatePost(post._id, data);
@@ -70,7 +64,7 @@ export default function PostForm({ post }) {
         if (created?.data) navigate(`/post/${created.data._id}`);
       }
     } catch (err) {
-      console.error("Error:", err.message);
+      console.log("Error: ", err.message);
     }
   };
 

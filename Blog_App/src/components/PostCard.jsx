@@ -21,13 +21,7 @@ function Postcard({ _id, title, image }) {
        onClick={handleClick}
        >
         <div className="w-full flex justify-center  ">
-          {/* <img
-                        src={imageUrl}
-                        alt={title}
-                        className='rounded-xl'
-                        onError={(e) => {
-                            e.target.src = "/images/fallback.png"; // Optional fallback
-                        }} */}
+          
           <img
             src={image.imageURL}
             alt={title}

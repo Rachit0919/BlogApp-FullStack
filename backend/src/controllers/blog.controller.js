@@ -136,4 +136,39 @@ const getAllPosts = asyncHandler(async (req, res) =>{
   }
 })
 
-export { createPost, editPost, deletePost, getAllPosts };
+const getPostByIdAndImageUrl = asyncHandler(async (req, res) =>{
+  const {id} = req.params
+  const post = await Blog.findById(id)
+
+  if(!post){
+    throw new ApiError(500, "Something went wrong while fetching the post")
+  }
+  // console.log("\nPost: ", post)
+  const imageUrl = await Image.findById(post.image) 
+  // console.log("\nImage Url is : ", imageUrl)
+
+  if(!imageUrl){
+    throw new ApiError(500, "Something went wrong while fething the image of the post")
+  }
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(
+      200,
+      post,
+      imageUrl,
+      "Fetched the post successfully"
+    )
+  )
+})
+
+// const getImageUrlById = asyncHandler( async (req, res) =>{
+//   const {postId} = req.params
+//   const image = await Image.findById(postId.image)
+//   if(!image)
+
+
+// })
+
+export { createPost, editPost, deletePost, getAllPosts,getPostByIdAndImageUrl };

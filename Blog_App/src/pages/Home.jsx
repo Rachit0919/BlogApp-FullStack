@@ -164,10 +164,10 @@ function Home() {
           return;
         }
 
-        const data = await response.json();   // ✅ await here
+        const data = await response.json();   
         console.log("Fetched posts:", data);
 
-        setPosts(data.data || []);   // ✅ safe assignment
+        setPosts(data.data || []);   
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
@@ -190,7 +190,7 @@ function Home() {
     );
   }
 
-  if (posts.length === 0) {   // ✅ show beforeLogin when no posts
+  if (posts.length === 0) {   
     return (
       <section className="w-full max-w-7xl">
         <Container>

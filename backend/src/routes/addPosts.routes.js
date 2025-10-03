@@ -16,6 +16,6 @@ router.route("/posts").post(verifyJWT,upload.single("image"), createPost);
 router.route("/posts/:_id").put(verifyJWT,upload.single("image"), editPost);
 router.route("/posts/:_id").delete (verifyJWT,upload.single("image"), deletePost);
 
-router.route('/all-posts').get(verifyJWT,getAllPosts)
+
 
 export default router;

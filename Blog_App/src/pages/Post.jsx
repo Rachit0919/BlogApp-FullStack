@@ -8,20 +8,19 @@ import { useSelector } from "react-redux";
 
 export default function Post() {
   const [post, setPost] = useState(null);
-//   console.log("Post: ",post)
+  console.log("Post: ",post)
 //   const [image, setImage] = useState(null)
   const { id } = useParams();
-//   console.log("\nPost ID from params:: ", id);
+  console.log("\nPost ID from params:: ", id);
   const navigate = useNavigate();
 
   const userData = useSelector((state) => state.auth.userData);
+  // console.log("\npost.userId: ", post.data.owner)
+  // console.log("\nuserData._id: ", userData._id )
 
-  const isAuthor = post && userData ? post.userId === userData.$id : false;
+  const isAuthor  = post && userData ? post.data.post.owner === userData._id : false;
 
-  useEffect(() => {
-    // if (id) {
-
-    // } 
+  useEffect(() => { 
     const getPost = async () => {
       if (id) {
         // console.log("Id: ", id);
@@ -62,14 +61,14 @@ export default function Post() {
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl  p-2 ">
           <img
-            src={post.message.imageURL}
+            src={post.data.imageUrl.imageURL}
             alt={post.title}
             className="rounded-xl"
           />
 
           {isAuthor && (
             <div className="absolute right-6 top-6 space-x-2 ">
-              <Link to={`/edit-post/${post.$id}`}>
+              <Link to={`/edit-post/${id}`}>
                 <Button className=" mr-3 rounded">Edit</Button>
               </Link>
               <Button
@@ -82,9 +81,9 @@ export default function Post() {
           )}
         </div>
         <div className="w-full mb-6">
-          <h1 className="text-2xl font-bold text-center">{post.data.title}</h1>
+          <h1 className="text-2xl font-bold text-center">{post.data.post.title}</h1>
         </div>
-        <div className="browser-css text-center text-">{parse(post.data.content)}</div>
+        <div className="browser-css text-center text-">{parse(post.data.post.content)}</div>
       </Container>
     </div>
   ) : null;

@@ -50,14 +50,16 @@ export default function PostForm({ post }) {
     try {
       const formData = new FormData()
       formData.append('title', data.title),
-      formData.append('slug', data.slug),
+      // formData.append('slug', data.slug),
       formData.append('content', data.content),
       formData.append('status', data.status),
       formData.append('userId', userData._id)
       formData.append('image', data.image[0])
       
       if (post) {
-        const updated = await updatePost(post._id, data);
+        // const updated = await updatePost(post._id, data);
+        const updated = await updatePost(post._id || post.data._id, data, userData._id);
+
         if (updated?.data) navigate(`/post/${updated.data._id}`);
       } else {
         const created = await createPost(formData);
@@ -68,26 +70,26 @@ export default function PostForm({ post }) {
     }
   };
 
-  const slugTransform = useCallback((value) => {
-    if (value && typeof value === "string")
-      return value
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-zA-Z\d\s]+/g, "-")
-        .replace(/\s/g, "-");
+  // const slugTransform = useCallback((value) => {
+  //   if (value && typeof value === "string")
+  //     return value
+  //       .trim()
+  //       .toLowerCase()
+  //       .replace(/[^a-zA-Z\d\s]+/g, "-")
+  //       .replace(/\s/g, "-");
 
-    return "";
-  }, []);
+  //   return "";
+  // }, []);
 
-  React.useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      if (name === "title") {
-        setValue("slug", slugTransform(value.title), { shouldValidate: true });
-      }
-    });
+  // React.useEffect(() => {
+    // const subscription = watch((value, { name }) => {
+    //   if (name === "title") {
+    //     setValue("slug", slugTransform(value.title), { shouldValidate: true });
+    //   }
+    // });
 
-    return () => subscription.unsubscribe();
-  }, [watch, slugTransform, setValue]);
+  //   return () => subscription.unsubscribe();
+  // }, [watch, slugTransform, setValue]);
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -98,7 +100,7 @@ export default function PostForm({ post }) {
           className="mb-4"
           {...register("title", { required: true })}
         />
-        <Input
+        {/* <Input
           label="Slug :"
           placeholder="Slug"
           className="mb-4"
@@ -108,7 +110,7 @@ export default function PostForm({ post }) {
               shouldValidate: true,
             });
           }}
-        />
+        /> */}
         <RTE
           label="Content :"
           name="content"

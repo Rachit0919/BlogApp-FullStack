@@ -5,12 +5,15 @@ import { upload } from "../middlewares/multer.middleware.js"
 
 import{
     getAllPosts,
-    getPostByIdAndImageUrl
+    getPostByIdAndImageUrl, 
+    editPost, 
+    deletePost
 } from "../controllers/blog.controller.js"
 
 const router = Router()
 router.route('/all-posts').get(verifyJWT,getAllPosts)
 router.route('/post/:id').get(verifyJWT,getPostByIdAndImageUrl)
+router.route('edit-post/:id').get(verifyJWT,editPost)
 
 
 export default router

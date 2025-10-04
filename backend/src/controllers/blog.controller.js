@@ -52,7 +52,11 @@ const editPost = asyncHandler(async (req, res) => {
   try {
     const { title, content } = req.body;
     const user = req.user;
-    const post = await Blog.findById(req.params._id);
+    console.log("\nUser inside edit post controller", user)
+    const {id} = req.params
+    console.log("\nBlog id from params in editPost controller", id)
+    const post = await Blog.findById(id);
+    console.log("\nPosts inside edit post controller: ", post)
     const imageLocalPath = req.files?.path;
     let imageUrl = post.image;
 
@@ -75,7 +79,7 @@ const editPost = asyncHandler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, post, "Blog post edited successfully"));
   } catch (error) {
-    throw new ApiError(500, "Something went wrong while editing the post");
+    throw new ApiError(500, error.message || "Something went wrong while editing the post");
   }
 });
 
@@ -156,8 +160,8 @@ const getPostByIdAndImageUrl = asyncHandler(async (req, res) =>{
   .json(
     new ApiResponse(
       200,
-      post,
-      imageUrl,
+      {post,
+      imageUrl},
       "Fetched the post successfully"
     )
   )

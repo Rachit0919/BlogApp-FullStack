@@ -32,4 +32,4 @@ app.use('/api/v1', homeRouter)
 
 
 
-export {app} 
+export {app}

@@ -4,7 +4,7 @@ import {Link, useNavigate } from "react-router-dom";
 
 function Postcard({ _id, title, image }) {
   
-  console.log("Image URL:", image);
+  // console.log("Image URL:", image);
   const navigate = useNavigate();
 
   

@@ -24,11 +24,13 @@ app.use(cookieParser())
 import userRouter from './routes/user.routes.js'
 import blogRouter from './routes/addPosts.routes.js'
 import homeRouter from './routes/home.routes.js'
+import allPostsRouter from './routes/allPosts.routes.js'
 
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1', blogRouter)
 app.use('/api/v1', homeRouter)
+app.use('/api/v1', allPostsRouter)
 
 
 

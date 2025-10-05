@@ -1,56 +1,45 @@
-// import React, {useState, useEffect} from 'react'
-// import { Container, PostCard } from '../components'
-// import appwriteService from "../appwrite/config";
 
-// function AllPosts() {
-//     const [posts, setPosts] = useState([])
-//     useEffect(() => {}, [])
-//     appwriteService.getPosts([]).then((posts) => {
-//         if (posts) {
-//             setPosts(posts.documents)
-//         }
-//     })
-//   return (
-//     <div className='w-full py-8'>
-//         <Container>
-//             <div className='flex flex-wrap -mx-2 justify-center'>
-//                 {posts.map((post) => (
-//                     <div key={post.$id} className='p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5'>
-//                         <PostCard {...post} />
-//                     </div>
-//                 ))}
-//             </div>
-//         </Container>
-//     </div>
-//   )
-// }
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Container, PostCard } from "../components";
 
-// export default AllPosts
-
-import React, { useState, useEffect } from 'react'
-import { Container, PostCard } from '../components'
-import appwriteService from '../appwrite/config'
-
-function AllPosts() {
-  const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(true)
+export default function AllPosts() {
+  const user = useSelector((state) => state.auth.userData);
+  const id = user?._id;
+  // console.log("\nId inside allPosts.jsx : ", id);
+  const [posts, setPosts] = useState([]);
+  // console.log("\nPosts indside allPosts.jsx:", posts);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // console.log("\nInside useeffect allposts.jsx");
     const fetchPosts = async () => {
+      // console.log("\nInside useeffect fetchpost allposts.jsx");
       try {
-        const response = await appwriteService.getPosts([])
-        if (response) {
-          setPosts(response.documents)
-        }
-      } catch (error) {
-        console.error('Error fetching posts:', error)
+        const res = await fetch(
+          `http://localhost:8000/api/v1/all-posts/${id}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              
+            },
+          }
+        );
+        const data = await res.json();
+        // console.log("\nData in allPosts.jsx", data);
+        setPosts(data.data || []); 
+      } catch (err) {
+        console.error("Error fetching posts:", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
+    fetchPosts();
+  }, [id]);
 
-    fetchPosts()
-  }, [])
+  if (loading) return <p>Loading...</p>;
 
   return (
     <section className="w-full py-8">
@@ -69,7 +58,7 @@ function AllPosts() {
           <div className="flex flex-wrap justify-center mx-2 items-start">
             {posts.map((post) => (
               <div
-                key={post.$id}
+                key={post._id}
                 className="p-2 "
               >
                 <PostCard {...post} />
@@ -81,5 +70,3 @@ function AllPosts() {
     </section>
   )
 }
-
-export default AllPosts

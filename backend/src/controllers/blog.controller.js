@@ -167,12 +167,30 @@ const getPostByIdAndImageUrl = asyncHandler(async (req, res) =>{
   )
 })
 
-// const getImageUrlById = asyncHandler( async (req, res) =>{
-//   const {postId} = req.params
-//   const image = await Image.findById(postId.image)
-//   if(!image)
+const getAllPostsOfCurrentUser = asyncHandler( async(req, res) =>{
+  try {
+    const{id} = req.params
+    console.log("\nId inside getAllPostsOfCurrentUser controller: ", id)
+    const blogs = await Blog.find({owner: id})
+    .populate('owner', "fullname")
+    .populate('image')
+    .sort('-createdAt')
+    // console.log("\nblogs inside getAllPostsOfCurrentUser: controller", blogs)
+    console.log("\nExiting getAllPostsOfCurrentUser controller ")
+    return res
+      .status(200)
+      .json(
+        
+          new ApiResponse(
+            200,
+            blogs,
+            "Fetched all blog posts successfully"
+          )
+        
+      )
+  } catch (error) {
+    throw new ApiError(500, error.message || "Error fetching all blog posts of the current user")
+  }
+})
 
-
-// })
-
-export { createPost, editPost, deletePost, getAllPosts,getPostByIdAndImageUrl };
+export { createPost, editPost, deletePost, getAllPosts,getPostByIdAndImageUrl,getAllPostsOfCurrentUser };

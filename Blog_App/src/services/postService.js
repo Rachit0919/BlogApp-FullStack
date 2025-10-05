@@ -71,6 +71,14 @@ export const deletePost = async (id) => {
 
 // eslint-disable-next-line no-unused-vars
 export const getAllPosts = async(req, res) => {
+  return fetchRequest('home',{
+    method: "GET",
+  })
+}
+
+
+export const getAllPostsOfCurrentUser = async(userId) =>{
+  console.log('\nInside postService getAllPostsOfCurrentUser, UserId : ', userId)
   return fetchRequest('all-posts',{
     method: "GET",
   })

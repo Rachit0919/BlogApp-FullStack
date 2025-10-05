@@ -11,7 +11,7 @@ import{
 } from "../controllers/blog.controller.js"
 
 const router = Router()
-router.route('/all-posts').get(verifyJWT,getAllPosts)
+router.route('/home').get(verifyJWT,getAllPosts)
 router.route('/post/:id').get(verifyJWT,getPostByIdAndImageUrl)
 router.route('edit-post/:id').get(verifyJWT,editPost)
 

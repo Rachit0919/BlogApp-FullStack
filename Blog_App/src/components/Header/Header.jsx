@@ -39,7 +39,7 @@ function Header() {
   ];
 
   return (
-    <header className="py-3 shadow w-full bg-white sticky top-[-10px]   ">
+    <header className="py-3 shadow w-full bg-white sticky top-[-10px]    ">
       <Container>
       <nav className="flex  justify-between px-4">
         <div className="cursor-pointer"

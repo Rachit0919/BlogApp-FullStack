@@ -59,7 +59,7 @@ export default function Post() {
   return post ? (
     <div className="py-8">
       <Container>
-        <div className="w-full flex justify-center mb-4 relative border rounded-xl  p-2 ">
+        <div className="w-full flex justify-center mb-4 relative border rounded-xl  p-5 ">
           <img
             src={post.data.imageUrl.imageURL}
             alt={post.title}

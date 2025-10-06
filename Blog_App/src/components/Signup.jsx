@@ -95,7 +95,7 @@ import { login } from '../store/authSlice'
 import { Button, Input, Logo } from './index.js'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { ApiError } from '../../../backend/src/utils/ApiError.js'
+// import { ApiError } from '../../../backend/src/utils/ApiError.js'
 
 function Signup() {
   const navigate = useNavigate()
@@ -127,7 +127,7 @@ function Signup() {
       })
       const result = await res.json()
       if(!res.ok){
-        throw new ApiError(result.message || "Signup failed!!!")
+        throw new Error(result.message || "Signup failed!!!")
       }
 
       dispatch(login({ user: result.user, token: result.token }));

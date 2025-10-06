@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 
 function Home() {
   const authStatus = useSelector((state) => state.auth.status);
-  console.log("Home component rendered");
-  console.log("authStatus in Home.jsx:", authStatus);
+  // console.log("Home component rendered");
+  // console.log("authStatus in Home.jsx:", authStatus);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 

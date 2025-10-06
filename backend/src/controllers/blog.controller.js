@@ -9,26 +9,26 @@ import { asyncHandler } from "../utils/asynchHandler.js";
 const createPost = asyncHandler(async (req, res) => {
   try {
     const { title, content } = req.body;
-    console.log(`\ntitle: ${title} `)
+    // console.log(`\ntitle: ${title} `)
     if ([title, content].some((field) => field.trim() === "")) {
       throw new ApiError(400, "All credentials are required");
     }
 
     const owner = req.user._id;
-    console.log("\nOwner: ", owner)
+    // console.log("\nOwner: ", owner)
 
     const imageLocalPath = req.file?.path;
-    console.log("\nReq.files: ", req.file)
-    console.log("\nImage local path: ", imageLocalPath)
+    // console.log("\nReq.files: ", req.file)
+    // console.log("\nImage local path: ", imageLocalPath)
     
     
     
     if (!imageLocalPath) {
       throw new ApiError(400, "Image required");
     }
-    console.log("\nBefore uploading in cloudinary: ")
+    // console.log("\nBefore uploading in cloudinary: ")
     const imageUploadOnCloudinary = await uploadOnCloudinary(imageLocalPath);
-    console.log("\nimage upload on cloudinary: ", imageUploadOnCloudinary)
+    // console.log("\nimage upload on cloudinary: ", imageUploadOnCloudinary)
     // const image = String(imageUploadOnCloudinary)
     const imageDoc = await Image.create({
       imageURL: imageUploadOnCloudinary.url
@@ -52,11 +52,11 @@ const editPost = asyncHandler(async (req, res) => {
   try {
     const { title, content } = req.body;
     const user = req.user;
-    console.log("\nUser inside edit post controller", user)
+    // console.log("\nUser inside edit post controller", user)
     const {id} = req.params
-    console.log("\nBlog id from params in editPost controller", id)
+    // console.log("\nBlog id from params in editPost controller", id)
     const post = await Blog.findById(id);
-    console.log("\nPosts inside edit post controller: ", post)
+    // console.log("\nPosts inside edit post controller: ", post)
     const imageLocalPath = req.files?.path;
     let imageUrl = post.image;
 
@@ -118,14 +118,14 @@ const deletePost = asyncHandler(async (req, res) => {
 });
 
 const getAllPosts = asyncHandler(async (req, res) =>{
-  console.log("Inside getAllPosts function.");
+  // console.log("Inside getAllPosts function.");
   try {
     const blogs = await Blog.find({})
     .populate('owner', 'fullname')
     .populate('image')
     .sort('-createdAt')
 
-    console.log("Fetched blogs in getAllPosts:", blogs);
+    // console.log("Fetched blogs in getAllPosts:", blogs);
     return res
     .status(200)
     .json(
@@ -173,13 +173,13 @@ const getPostByIdAndImageUrl = asyncHandler(async (req, res) =>{
 const getAllPostsOfCurrentUser = asyncHandler( async(req, res) =>{
   try {
     const{id} = req.params
-    console.log("\nId inside getAllPostsOfCurrentUser controller: ", id)
+    // console.log("\nId inside getAllPostsOfCurrentUser controller: ", id)
     const blogs = await Blog.find({owner: id})
     .populate('owner', "fullname")
     .populate('image')
     .sort('-createdAt')
     // console.log("\nblogs inside getAllPostsOfCurrentUser: controller", blogs)
-    console.log("\nExiting getAllPostsOfCurrentUser controller ")
+    // console.log("\nExiting getAllPostsOfCurrentUser controller ")
     return res
       .status(200)
       .json(

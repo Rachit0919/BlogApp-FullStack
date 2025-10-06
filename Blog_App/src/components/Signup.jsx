@@ -118,7 +118,7 @@ function Signup() {
       //     dispatch(login(currentUser))
       //     navigate("/")
       //   }
-      const res = await fetch("http://localhost:8000/api/v1/users/register",{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/register`,{
         method: "POST",
         headers:{
           "Content-Type": "application/json"

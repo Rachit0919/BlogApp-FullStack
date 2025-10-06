@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Container, PostCard } from "../components";
@@ -17,7 +16,7 @@ export default function AllPosts() {
       // console.log("\nInside useeffect fetchpost allposts.jsx");
       try {
         const res = await fetch(
-          `http://localhost:8000/api/v1/all-posts/${id}`,
+          `${import.meta.env.VITE_API_BASE_URL}/all-posts/${id}`,
           {
             method: "GET",
             credentials: "include",

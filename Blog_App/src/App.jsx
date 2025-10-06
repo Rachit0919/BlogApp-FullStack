@@ -16,27 +16,26 @@ function App() {
   useEffect(() => {
   const fetchCurrentUser = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/users/current-user", {
+      console.log("Fetching current user from:", `${import.meta.env.VITE_API_BASE_URL}/users/current-user`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/current-user`, {
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      if (!res.ok) {
+      if (!response.ok) {
         dispatch(logout());
-        setLoading(false);
         return;
       }
 
-      const data = await res.json();
+      const data = await response.json();
       if (data?.data) {
         dispatch(login({ user: data.data }));
       } else {
         dispatch(logout());
       }
     } catch (error) {
-      console.error("Error fetching current user:", error);
       dispatch(logout());
     } finally {
       setLoading(false);

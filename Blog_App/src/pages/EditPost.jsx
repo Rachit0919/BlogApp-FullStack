@@ -23,16 +23,13 @@ function EditPost() {
     const getPost = async () => {
       if (id) {
         // console.log("Id: ", id);
-        const response = await fetch(
-          `http://localhost:8000/api/v1/post/${id}`,
-          {
-            method: "GET",
-            credentials: "include", // keep cookies if using auth
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/post/${id}`, {
+          method: "GET",
+          credentials: "include", // keep cookies if using auth
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         if (!response.ok) {
           console.log("Error fetching the post");
         }

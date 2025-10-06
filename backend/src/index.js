@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-dotenv.config({path: '../../backend/.env'})
+dotenv.config({path: '../.env'})
 import mongoose from 'mongoose'
 import db from './db/index.js';
 import {app} from './app.js'

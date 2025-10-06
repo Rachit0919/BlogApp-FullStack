@@ -4,15 +4,19 @@
 import React, { useEffect, useState } from "react";
 import { Container, PostCard } from "../components";
 import BeforeLoginComponent from "../assets/beforeLoginComponent";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const authStatus = useSelector((state) => state.auth.status);
+  console.log("Home component rendered");
+  console.log("authStatus in Home.jsx:", authStatus);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/v1/home", {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/home`, {
           method: "GET",
           credentials: "include",
         });
@@ -43,6 +47,18 @@ function Home() {
           <p className="text-center text-lg font-medium text-indigo-600 animate-pulse">
             Loading posts...
           </p>
+        </Container>
+      </section>
+    );
+  }
+
+  if (!authStatus) {
+    return (
+      <section className="w-full max-w-7xl">
+        <Container>
+          <div className="relative">
+            <BeforeLoginComponent />
+          </div>
         </Container>
       </section>
     );

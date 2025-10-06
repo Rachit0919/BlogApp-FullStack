@@ -30,6 +30,6 @@ export const verifyJWT = asyncHandler( async(req, res, next) =>{
       // send a clear 401 so client can refresh
       return res.status(401).json({ message: "jwt expired" });
     }
-        throw new ApiError(401, error, error?.message || "Invalid Access")
+        throw new ApiError(401, error.message || "Invalid Access", [error])
     }
 })

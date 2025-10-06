@@ -84,7 +84,8 @@ const loginUser = asyncHandler( async(req, res) =>{
     const options = {
         httpOnly: true,
         secure: false,
-        sameSite: "lax"
+        sameSite: "lax",
+        path: "/"
     }
     // console.log("\nToken during login:", accessToken)
     return res
@@ -103,39 +104,64 @@ const loginUser = asyncHandler( async(req, res) =>{
     )
 })
 
-const logOutUser = asyncHandler(async(req, res) =>{
-    await User.findOneAndUpdate(
-        {_id: req.user._id},{
-            $unset:{
-                refreshToken: 1
-            }
-        },
-        {
-            new: true
-        }
-    )
-    const options = {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax"
-    }
+// const logOutUser = asyncHandler(async(req, res) =>{
+//     await User.findOneAndUpdate(
+//         {_id: req.user._id},{
+//             $unset:{
+//                 refreshToken: 1
+//             }
+//         },
+//         {
+//             new: true
+//         }
+//     )
+//     const options = {
+//         httpOnly: true,
+//         secure: false,
+//         sameSite: "lax"
+//     }
 
-    return res
-    .status(200)
-    .clearCookie("accessToken",  options)
-    .clearCookie("refreshToken",  options)
-    .json(
-        new ApiResponse(
-            200,
-            {},
-            "User logged Out Successfully"
-        )
-    )
-})
+//     return res
+//     .status(200)
+//     .clearCookie("accessToken",  options)
+//     .clearCookie("refreshToken",  options)
+//     .json(
+//         new ApiResponse(
+//             200,
+//             {},
+//             "User logged Out Successfully"
+//         )
+//     )
+// })
+
+const logOutUser = asyncHandler(async (req, res) => {
+  // Remove refresh token from DB
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $unset: { refreshToken: 1 } },
+    { new: true }
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: false,      // false for localhost dev
+    sameSite: "lax",
+    path: "/"           // important: must match cookie path when set
+  };
+
+  res.clearCookie("accessToken", options);
+  res.clearCookie("refreshToken", options);
+
+  return res.status(200).json(
+    new ApiResponse(200, {}, "User logged out successfully")
+  );
+});
 
 const getCurrentUser = asyncHandler(async(req, res) =>{
-
-    
+    console.log("Inside getCurrentUser. User:", req.user);
+    if (!req.user) {
+        throw new ApiError(401, "Unauthorized: User not found in request after JWT verification");
+    }
 
     return res
     .status(200)

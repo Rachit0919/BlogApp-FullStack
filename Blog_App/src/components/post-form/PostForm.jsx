@@ -26,7 +26,7 @@ export default function PostForm({ post }) {
   useEffect(() =>{
     const getCurrentUser = async() =>{
       try {
-        const res = await fetch("http://localhost:8000/api/v1/users/current-user",{
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/current-user`,{
           method: "GET",
           credentials: "include",
         })

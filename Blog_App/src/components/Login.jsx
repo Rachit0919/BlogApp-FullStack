@@ -7,7 +7,16 @@ import { Button, Input, Logo } from "./index";
 import { useDispatch } from "react-redux";
 // import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
-import { ApiError } from "../../../backend/src/utils/ApiError";
+
+class ApiError extends Error {
+  constructor(statusCode, message = "Something went wrong") {
+    super(message);
+    this.statusCode = statusCode;
+    this.message = message;
+    this.success = false;
+    this.errors = [];
+  }
+}
 
 
 function Login() {
@@ -19,14 +28,17 @@ function Login() {
   const login = async (data) => {
     setError("");
     try {
-      // const session = await authService.login(data);/
-      // const session =  loginUser(data);
-      // if (session) {
-      //   const userData = await authService.getCurrentUser();
-      //   if (userData) dispatch(authLogin(userData));
-      //   navigate("/");
-      // }
-      const res = await fetch("http://localhost:8000/api/v1/users/login", {
+      console.log("Login function called with data:", data);
+      console.log("Attempting to send login request to:", `${import.meta.env.VITE_API_BASE_URL}/users/login`);
+      console.log("Request options:", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+      });
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/login`, {
         method: "POST",
         credentials: "include",
         headers:{
@@ -34,7 +46,9 @@ function Login() {
         },
         body: JSON.stringify(data),
       })
+      console.log("Login request response:", res);
       const result = await res.json();
+      console.log("Login request result:", result);
       if(!res.ok){
         throw new ApiError( result.message || "Login failed!!!")
       }

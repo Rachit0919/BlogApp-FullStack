@@ -118,12 +118,14 @@ const deletePost = asyncHandler(async (req, res) => {
 });
 
 const getAllPosts = asyncHandler(async (req, res) =>{
+  console.log("Inside getAllPosts function.");
   try {
     const blogs = await Blog.find({})
     .populate('owner', 'fullname')
     .populate('image')
     .sort('-createdAt')
 
+    console.log("Fetched blogs in getAllPosts:", blogs);
     return res
     .status(200)
     .json(
@@ -136,6 +138,7 @@ const getAllPosts = asyncHandler(async (req, res) =>{
       
     )
   } catch (error) {
+    console.error("Error in getAllPosts:", error);
     throw new ApiError(500, error.message || "Error fetching all blog posts")
   }
 })
